@@ -8,6 +8,8 @@ Twitter will be used to gather data to be visualized in the development of the a
 2. Tweepy
 Using the Python library Tweepy, it is possible to gain access to the Twitter API through the execution of a Python script. The data is then streamed in JSON format. The Tweet data has numerous pieces of information about each tweet. The structure of one Tweet is shown in Appendix A.
 
+In order to access the Twitter API, user tokens and customer keys must be obtained from the Twitter Developers website by creating a developer account.
+
 3. Elasticsearch
 ElasticSearch will be used to store the tweets.
 
@@ -22,13 +24,10 @@ ElasticSearch will be used to store the tweets.
 ## Visualisation 
 
 1. What are we visualising
-2. Design
+2. User Interface Design
 3. Integrate with streaming/DB
-4. 
 
 ## Anomaly detection 
-
-
 
 ## Bot Analysis
 
@@ -39,5 +38,5 @@ ElasticSearch will be used to store the tweets.
 
 # Sections
 # Appendices
-## Appendix A
+## Appendix A - Structure of a Tweet
 
