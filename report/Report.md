@@ -2,7 +2,7 @@
 
 ## Twitter Streaming
 
-1. Twitter API
+### 1. Twitter API
 Twitter will be used to gather data to be visualized in the development of the application.  Twitter has given developers the opportunity to access Tweet data through the use of their APIs. An application-programming interface (API) is a set of instructions and standards that decides how one application communicates with another. Facebook and Twitter are possibly the most popular APIs for social media content. In Twitter’s case, developers have access to two main types of APIs, their REST APIs and their Streaming APIs. This application will make use of their Streaming APIs in order to gain access to Twitter’s global stream of Tweet data.
 
 2. Tweepy
