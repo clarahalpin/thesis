@@ -1,5 +1,6 @@
 import csv
 import tweepy
+import json
 
 config = json.load(open('config.json', 'r'))
 
@@ -19,15 +20,15 @@ reader = csv.reader(readFile)
 writeFile = open("user_ids.csv", "w")
 writer = csv.writer(writeFile)
 
-rows = []
+user_ids = []
 
 for row in reader:
     processedRow = ', '.join(row)
     user = api.get_user(screen_name = processedRow)
-    rows.append(user.id)
+    user_ids.append(user.id)
 
-for row in rows:
-    writer.writerow(row)
+for u_id in user_ids:
+    writer.writerow([[u_id] for u_id in user_ids])
 
 print("User IDs written to file")
 readFile.close()
