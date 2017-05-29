@@ -26,9 +26,9 @@ for row in reader:
     user = api.get_user(screen_name = processedRow)
     rows.append(user.id)
 
-    for row in rows:
-        writer.writerow(row)
+for row in rows:
+    writer.writerow(row)
 
-        print("User IDs written to file")
-        readFile.close()
-        writeFile.close()
+print("User IDs written to file")
+readFile.close()
+writeFile.close()
