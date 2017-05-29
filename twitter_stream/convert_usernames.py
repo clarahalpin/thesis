@@ -28,7 +28,7 @@ for row in reader:
     user_ids.append(user.id)
 
 for u_id in user_ids:
-    writer.writerow([[u_id] for u_id in user_ids])
+    writer.writerows([[u_id] for u_id in user_ids])
 
 print("User IDs written to file")
 readFile.close()
