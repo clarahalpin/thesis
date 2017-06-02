@@ -5,7 +5,8 @@ import json
 from textwrap import TextWrapper
 from datetime import datetime
 from elasticsearch import Elasticsearch
-
+import time
+import traceback
 config = json.load(open('config.json', 'r'))
 
 consumer_key= config.get('consumer_key', None)
@@ -19,12 +20,17 @@ auth.set_access_token(access_token, access_token_secret)
 
 es = Elasticsearch(['localhost:9212'])
 
+user_ids = []
 with open("user_ids.csv", 'r') as f:
         reader = csv.reader(f)
-        user_ids = list(reader)
+        #user_ids = list(reader)
+        for line in reader:
+                #print('line', line)
+                user_ids.append(line[0].strip())
 f.close()
 
 def create_index(es, index=None, mapping=None, settings=None):
+    print('creating index', index)
     if mapping is None:
         mapping = {"mappings": {
             index: {
@@ -35,12 +41,20 @@ def create_index(es, index=None, mapping=None, settings=None):
         }
 
     settings =  {"settings": {
-            "index.mapping.total_fields.limit": 2000
+         #   "index.mapping.total_fields.limit": 2000
     }}
     if settings is not None:
         mapping['settings'] = settings
+
+
+    for i in es.indices.get('*'):
+            print('index:', i)
     es.indices.delete(index=index, ignore=[400, 404])
-    es.indices.create(index=index, ignore=[400, 404], body=mapping)
+    es.indices.create(index=index,
+                      #ignore=[400, 404],
+                      body=mapping)
+    for i in es.indices.get('*'):
+            print('after index:', i)
     return
                  
 class StreamListener(tweepy.StreamListener):
@@ -48,6 +62,7 @@ class StreamListener(tweepy.StreamListener):
         try:
             json_data = status._json
             #print json_data['text']
+            print('tweet', json_data['text'])
             es.index(index="idx_user_live_tweets_test",
                      doc_type="tweet",
                      body=json_data)
@@ -58,12 +73,31 @@ class StreamListener(tweepy.StreamListener):
             print ('data:', json_data)
             pass
 
-def main():
-    streamer = tweepy.Stream(auth=auth, listener=StreamListener(), timeout=3000000000)    
-    streamer.filter(follow= (','.join(str(u_id) for u_id in user_ids)))
+def main():    
+    try:
+        streamer = tweepy.Stream(auth=auth, listener=StreamListener(), timeout=3000000000)
+        #print('userids', user_ids)
+        #streamer.filter(follow=(', '.join('"' + str(u_id) + '"' for u_id in user_ids)))
+        streamer.filter(follow=user_ids)
+    except Exception as e:
+        print (e)
+        pass
     return
 
 if __name__ == '__main__':
-    print(es)
-    create_index(es, index="idx_user_live_tweets_test")
-    main()
+#    try:
+     print(es)
+     index="idx_user_live_tweets_test"
+     if es.indices.exists(index):
+             print('index already exists', index)
+     else:
+             create_index(es, index=index)
+
+     while True:
+             try:
+                     main()
+             except:
+                     print(traceback.format_exc())
+                     time.sleep(10)
+                     
+  #    print (b)
