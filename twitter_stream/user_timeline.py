@@ -20,7 +20,7 @@ access_token_secret=config.get('access_token_secret', None)
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
-api = tweepy.API(auth)
+api = tweepy.API(auth, wait_on_rate_limit_notify = True)
 es = Elasticsearch(['localhost:9212'])
 
 user_ids = []
@@ -61,18 +61,19 @@ def create_index(es, index=None, mapping=None, settings=None):
         return
 
 def main():
-        tweets = tweepy.Cursor(api.user_timeline, user_id = (user_ids)).pages()
-        try:
-                json_data = status._json
-                #print json_data['text']
-                es.index(index="idx_user_past_tweets_test",
-                         doc_type="tweet",
-                         body=json_data)
-        except Exception as e:
-                print(e)
-                print('type', type(json_data), len(json_data.keys()))
-                print('data:', json_data)
-                pass
+        print("starting main")
+        for u_id in user_ids:
+                tweets = tweepy.Cursor(api.user_timeline, user_id = u_id).pages()
+                try:
+                        for tweet in tweets:
+                                es.index(index="idx_user_past_tweets_test",
+                                         doc_type="tweet",
+                                         body=tweet)
+                except Exception as e:
+                        print(e)
+                        #print('type', type(json_data), len(json_data.keys()))
+                        #print('data:', json_data)
+                        pass
         return
 
 if __name__ == '__main__':
