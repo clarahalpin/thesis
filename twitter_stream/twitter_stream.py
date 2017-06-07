@@ -42,7 +42,7 @@ class StreamListener(tweepy.StreamListener):
         try:
             json_data = status._json
             #print json_data['text']
-            es.index(index="idx_tweets_test",
+            es.index(index="idx_live_tweets",
                      doc_type="tweet",
                      body=json_data)
             
@@ -54,15 +54,31 @@ class StreamListener(tweepy.StreamListener):
 
 def main():
     streamer = tweepy.Stream(auth=auth, listener=StreamListener(), timeout=3000000000)
-    
-    #Fill with your own Keywords bellow
-    terms = ['apple']
+    terms = []
+
+    with open ("arabic_terms.csv", 'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            terms.append(line)
+        
     
     streamer.filter(None, terms)
     return
 
 if __name__ == '__main__':
-    print(es)
-    # create_index(es, index="idx_tweets_test")
-    main()
+#    try:
+     print(es)
+     index="idx_live_tweets"
+     if es.indices.exists(index):
+             print('index already exists', index)
+     else:
+             create_index(es, index=index)
+
+     while True:
+             try:
+                     main()
+             except:
+                     print(traceback.format_exc())
+                     time.sleep(10)
+
                                 

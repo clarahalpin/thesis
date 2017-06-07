@@ -16,20 +16,24 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 readFile = open("usernames.csv", "r")
-reader = csv.reader(readFile)
+lines = readFile.readlines()
+readFile.close()
+
+user_ids =[]
+for line in lines:
+    user = api.get_user(screen_name = line)
+    user_ids.append(user.id)
+    
 writeFile = open("user_ids.csv", "w")
 writer = csv.writer(writeFile)
 
-user_ids = []
+#for row in reader:
+ #   processedRow = ', '.join(row)
+  #  print (processedRow, len(processedRow))
+#user = api.get_user(screen_name = processedRow)
+#user_ids.append(user.id)
 
-for row in reader:
-    processedRow = ', '.join(row)
-    user = api.get_user(screen_name = processedRow)
-    user_ids.append(user.id)
-
-for u_id in user_ids:
-    writer.writerows([[u_id] for u_id in user_ids])
+writer.writerows([[u_id] for u_id in user_ids])
 
 print("User IDs written to file")
-readFile.close()
 writeFile.close()
