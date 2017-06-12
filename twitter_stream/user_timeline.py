@@ -63,13 +63,17 @@ def create_index(es, index=None, mapping=None, settings=None):
 def main():
         print("starting main")
         for u_id in user_ids:
-                tweets = tweepy.Cursor(api.user_timeline, user_id = u_id).items()
+                result = es.search(index = "idx_user_past_tweets", doc_type="tweet", body={"size":1, "sort":[{"id": {"order":"desc"}}], "query": { "bool": {"must": [{"match":{"user.id_str": u_id}}]}}})
+                #print(result["hits"]["hits"])
+                for hit in result['hits']['hits']:
+                        result_id = hit["_source"]["id"]
+                        tweets = tweepy.Cursor(api.user_timeline, user_id = u_id, since_id = result_id).items()
         
-                for status in tweets:
-                        json_data = status._json
-                        es.index(index="idx_user_past_tweets",
-                                 doc_type="tweet",
-                                 body=json_data)
+                        for status in tweets:
+                                json_data = status._json
+                                es.index(index="idx_user_past_tweets",
+                                         doc_type="tweet",
+                                         body=json_data)
         #except Exception as e:
          #       print(e)
                 #print('type', type(json_data), len(json_data.keys()))
