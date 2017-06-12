@@ -67,7 +67,7 @@ def main():
         
                 for status in tweets:
                         json_data = status._json
-                        es.index(index="idx_past_user_tweets",
+                        es.index(index="idx_user_past_tweets",
                                  doc_type="tweet",
                                  body=json_data)
         #except Exception as e:
@@ -79,7 +79,7 @@ def main():
 
 if __name__ == '__main__':
         print(es)
-        index="idx_past_user_tweets"
+        index="idx_user_past_tweets"
         if es.indices.exists(index):
                 print('index already exists', index)
         else:
