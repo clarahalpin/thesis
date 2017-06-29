@@ -6,23 +6,14 @@ body {
 	background-color: #003459;
 	height:6em;
 }
-.col-md-4 {
-	height:200px;
+
+p{
+	color: black;
 }
 
-#panel{
-	height:200px;
-}
-
-select, option { 
-	width: auto; 
-}
 .col-md-8 {
 	background-color: #FFFFFA;
-	height:200px;
+	height:auto;
 }
 
-.footer {
-	background-color: blue;
-	height:200px;
-}
+

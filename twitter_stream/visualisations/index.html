@@ -9,12 +9,19 @@
 
 	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
 	<link rel="stylesheet" href="css/styles.css" type="text/css" />
-	<script src="js/d3.v3.js"></script>
 	<script src="js/jquery-3.2.1.min.js"></script>
-	<!--<script src = "js/charts.js"></script>-->
+	<script type ="text/javascript" src="js/d3.v3.js"></script>
+	<script src = "js/d3.layout.cloud.js"></script>
+	<!-- <script src="js/require.js"></script>
+	<script>require(["js/wordcloud.js"], function () {})</script>
+	<script src="js/elasticsearch.js"></script> -->
+	
+	<!--<script src = "js/streamgraph.js"></script>-->
+	
 </head>
 
 <body>
+
 	<div class = "container-fluid">
 		<div class = "row">
 			<div class="col-md-12">
@@ -23,12 +30,13 @@
 
 		<div class = "row">
 			<div class = "col-md-4" id = "panel">
-				 <select>
+			
+				 <!-- <select>
   					<option value="option 1">Option 1</option>
   					<option value="option 2">Option 2</option>
   					<option value="option 3">Option 3</option>
   					<option value="option 4">Option 4</option>
-				</select> 
+				</select>  -->
 			</div>
 			<div class = "col-md-8">
 			</div>	
@@ -38,15 +46,26 @@
 			<div class = "col-md-4">
 			</div>
 			<div class = "col-md-4">
+				<div class = "row">
+				</div>
+				<div class="row">
+					<div id = "wordcloud">
+					</div>
+				</div>
 			</div>
 			<div class = "col-md-4">
 			</div>
 		</div>
 	
-		<div class = "row">
-			<div class="col-md-12">
+		<!-- <div class = "row">
+			<div class="col-md-12" id = "footer">
 			</div>	
-		</div>
+		</div> -->
 	</div>
+	<script src="js/d3.v3.js"></script>
+	
+	<!--<script src = "js/streamgraph.js"></script>-->
+	
+	<script src = "js/wordcloud.js"></script>
 </body>
 </html>
