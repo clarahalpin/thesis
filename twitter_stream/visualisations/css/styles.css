@@ -1,0 +1,28 @@
+body {
+	background-color: #FFFFFA;
+}
+
+.col-md-12{
+	background-color: #003459;
+	height:6em;
+}
+.col-md-4 {
+	height:200px;
+}
+
+#panel{
+	height:200px;
+}
+
+select, option { 
+	width: auto; 
+}
+.col-md-8 {
+	background-color: #FFFFFA;
+	height:200px;
+}
+
+.footer {
+	background-color: blue;
+	height:200px;
+}
