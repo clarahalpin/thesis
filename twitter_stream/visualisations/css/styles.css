@@ -1,0 +1,19 @@
+body {
+	background-color: #FFFFFA;
+}
+
+.col-md-12{
+	background-color: #003459;
+	height:6em;
+}
+
+p{
+	color: black;
+}
+
+.col-md-8 {
+	background-color: #FFFFFA;
+	height:auto;
+}
+
+
