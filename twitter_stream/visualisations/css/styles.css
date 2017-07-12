@@ -16,4 +16,33 @@ p{
 	height:auto;
 }
 
+.ticker-container { 
+  background-color:#ccc;
+  width:300px;
+  height:250px;
+  overflow:hidden;
+  padding:10px;
+  font-family:Helvetica;
+}
+.ticker-container .mask {
+  position: relative;
+  left: 0px;
+  top: 10px;
+  width:300px;
+  height:240px;
+  overflow: hidden;
+}
+.ticker-container ul {
+  list-style:none;
+  margin:0;
+  padding:0;
+  position: relative;
+}
+.ticker-container ul li {
+  padding:10px 0px;
+}
+.ticker-container ul li a {
+  color:blue;
+  text-decoration:none;
+}
 
