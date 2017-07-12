@@ -34,6 +34,7 @@ function chart(data, color) {
     var y = d3.scaleLinear()
                 .range([height - 10, 0]);
 
+
     var z = d3.scaleOrdinal()
                 .range(colorrange);
 

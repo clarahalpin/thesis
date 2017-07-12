@@ -63,7 +63,7 @@ def create_index(es, index=None, mapping=None, settings=None):
 def main():
         print("starting main")
         for u_id in user_ids:
-                result = es.search(index = "idx_user_past_tweets", doc_type="tweet", body={"size":1, "sort":[{"id": {"order":"desc"}}], "query": { "bool": {"must": [{"match":{"user.id_str": u_id}}]}}})
+                result = es.search(index = "idx_user_past_tweets_updated", doc_type="tweet", body={"size":1, "sort":[{"id": {"order":"desc"}}], "query": { "bool": {"must": [{"match":{"user.id_str": u_id}}]}}})
                 #print(result["hits"]["hits"])
                 for hit in result['hits']['hits']:
                         result_id = hit["_source"]["id"]
@@ -71,7 +71,7 @@ def main():
         
                         for status in tweets:
                                 json_data = status._json
-                                es.index(index="idx_user_past_tweets",
+                                es.index(index="idx_user_past_tweets_updated",
                                          doc_type="tweet",
                                          body=json_data)
         #except Exception as e:
@@ -83,7 +83,7 @@ def main():
 
 if __name__ == '__main__':
         print(es)
-        index="idx_user_past_tweets"
+        index="idx_user_past_tweets_updated"
         if es.indices.exists(index):
                 print('index already exists', index)
         else:
