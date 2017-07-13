@@ -132,3 +132,33 @@ query on date range
         }
     }
 }
+
+date range, histogram and unique users
+
+{
+  "query": {
+    "range" : {
+      "created_at" : {
+                "gte" :"Wed Jun 14 00:00:00 +0000 2017",
+                "lt" : "Thu Jun 15 00:00:00 +0000 2017"
+            }
+        }
+    },
+      
+  
+    "aggs" : {
+      "days" : {
+        "date_histogram": {
+          "field": "created_at",
+            "interval": "hour"
+        },
+      "aggs": {
+       "count_per_user" : {
+            "cardinality" : { "field" : "user.id" }
+        }
+    }
+      }
+    },
+  "size":0
+
+}

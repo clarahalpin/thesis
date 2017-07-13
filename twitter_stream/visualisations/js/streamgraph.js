@@ -177,26 +177,15 @@ function chart(data, color) {
         });
     }
 
-    var date_agg = {
-        "query": {
-            "match_all": {}
-        },
-        "sort":[
-            { "timestamp_ms" : {"order" : "desc"}}
-        ],
-        "size":0
-    };
-
-    var tweet_count = {
-        "aggs": {
-            "count_all_tweets":{
-                "terms": {
-                    "field": "id"
-                }
-            }
-        },
-        "size":0
-    };
+    // var date_agg = {
+    //     "query": {
+    //         "match_all": {}
+    //     },
+    //     "sort":[
+    //         { "timestamp_ms" : {"order" : "desc"}}
+    //     ],
+    //     "size":0
+    // };
 
 $(document).ready(function () {
     var client = new $.es.Client({
@@ -218,18 +207,21 @@ $(document).ready(function () {
     var time_interval = "hour";
     //var max_users = 15;
 
-    date_agg.aggs = {
+    var date_agg = 
+
+       {
   
+    "aggs" : {
       "days" : {
         "date_histogram": {
           "field": "created_at",
-            "interval": time_interval
+            "interval": "day"
         },
       "aggs": {
        "count_per_user" : {
             "cardinality" : { "field" : "user.id" }
         }
-    
+    }
       }
     },
   "size":0
@@ -242,36 +234,36 @@ $(document).ready(function () {
         }).then(function (resp) {
             console.log('response:', resp);
 
-            // var tags_defaults = {};
-            // resp.aggregations.tagcounts.buckets.forEach(function(v) {
-            //     tags_defaults[v.key] = 0;
-            // });
+            var tags_defaults = {};
+            resp.aggregations.count_per_user.buckets.forEach(function(v) {
+                tags_defaults[v.key] = 0;
+            });
 
-            // //console.log('tags:', tags_defaults);
-            // var series = [], series_pos = [], series_neg = [], series_neut = [];
+            //console.log('tags:', tags_defaults);
+            var series = [], series_pos = [], series_neg = [], series_neut = [];
 
-            // var buckets = resp.aggregations.articles_over_time.buckets;
-            // for (var i = 0; i < buckets.length; ++i) {
-            //     var elem = buckets[i];
-            //     var date = new Date(elem.key);
-            //     var tag_counts = {};
+            var buckets = resp.aggregations.days.buckets;
+            for (var i = 0; i < buckets.length; ++i) {
+                var elem = buckets[i];
+                var date = new Date(elem.key);
+                var count_per_user = {};
 
-            //     // we need to have tag counts for each of the tag_default tags at each of the dates
-            //     elem.tags.buckets.forEach(function(v) {
-            //         tag_counts[v.key] = v.doc_count;
-            //     });
-            //     tag_counts = _.pick(tag_counts, Object.keys(tags_defaults));
-            //     tag_counts = _.defaults(tag_counts, tags_defaults);
+                // we need to have tag counts for each of the tag_default tags at each of the dates
+                elem.tags.buckets.forEach(function(v) {
+                    count_per_user[v.key] = v.doc_count;
+                });
+                count_per_user = _.pick(count_per_user, Object.keys(tags_defaults));
+                count_per_user = _.defaults(count_per_user, tags_defaults);
 
-            //     _.each(tag_counts, function(v, k) {
-            //        series.push({key: k, value: v, date: date});
-            //     });
-            // }
+                _.each(count_per_user, function(v, k) {
+                   series.push({key: k, value: v, date: date});
+                });
+            }
 
             // $('title').html(tvshow);
             // $('#header h2').text(tvshow);
-            //console.log(series);
-            //chart(series, "blue");
+            // console.log(series);
+            chart(series, "blue");
         }, function (err) {
             console.trace(err.message);
         });
