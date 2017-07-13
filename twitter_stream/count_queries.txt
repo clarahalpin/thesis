@@ -1,0 +1,134 @@
+count all docs in index:
+
+{
+  "size": 0,
+  "aggs": {
+    "count_all_tweets":{
+    
+      "terms": {
+        "field": "id"
+      }
+  }
+  }
+}
+
+date histogram:
+
+{
+  "size":0,
+    "aggs" : {
+        "over_time" : {
+            "date_histogram" : {
+                "field" : "created_at",
+                "interval" : "day",
+                "format" : "EEE MMM dd HH:mm:ss Z yyyy"
+            }
+        }
+    }
+}
+
+sort by date
+
+{
+  "_source":["timestamp_ms"],
+    "sort" : [
+        { "timestamp_ms" : {"order" : "desc"}}
+        
+    ]
+}
+
+OR:
+
+{
+  "query": {
+    "match_all": {}
+  },
+  "sort":[
+        { "timestamp_ms" : {"order" : "desc"}}
+    ]
+}
+
+count of tweets per user
+
+{
+    "aggs" : {
+        "count_per_user" : {
+            "terms" : { "field" : "user.id" }
+        }
+    },
+  "size":0
+}
+
+count of users over time
+
+{
+  
+    "aggs" : {
+        "count_per_user" : {
+            "terms" : { "field" : "user.id" }
+        }
+    },
+      "aggs":{
+      "over_time" : {
+            "date_histogram" : {
+                "field" : "created_at",
+                "interval" : "day"
+            }}
+        },
+  "size":0
+}
+
+entities.hashtags
+{
+  "_source":["entities.hashtags.text"],
+    "aggs" : {
+        "hashtags" : {
+            "terms" : { 
+                "field" : "entities.hashtags" 
+            }
+        }
+    }
+}
+
+{
+  
+    "aggs" : {
+        "count_per_user" : {
+            "cardinality" : { "field" : "user.id" }
+        }
+    },
+
+  "size":0
+}
+
+nested date and unique users
+{
+  
+    "aggs" : {
+      "days" : {
+        "date_histogram": {
+          "field": "created_at",
+            "interval": "day"
+        },
+      "aggs": {
+       "count_per_user" : {
+            "cardinality" : { "field" : "user.id" }
+        }
+    }
+      }
+    },
+  "size":0
+}
+
+query on date range
+
+{
+  "query": {
+  	"range" : {
+    	"created_at" : {
+                "gte" :"Wed Jun 14 00:00:00 +0000 2017",
+                "lt" : "Thu Jun 15 00:00:00 +0000 2017"
+            }
+        }
+    }
+}
