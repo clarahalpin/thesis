@@ -44,16 +44,15 @@ function chart(data, color) {
     var yAxis = d3.axisLeft()
                 .scale(y);
 
-    var stack = d3.stack()
-                .offset("silhouette")
+    var stack = d3.stackOffsetSilhouette()
                 .values(function (d) {
                     return d.values;
                 })
                 .x(function (d) {
-                    return d.date;
+                    return d.key_as_string;
                 })
                 .y(function (d) {
-                    return d.value;
+                    return d.doc_count;
                 });
 
     var nest = d3.nest()
@@ -61,10 +60,10 @@ function chart(data, color) {
                     return d.key;
                 });
 
-    var area = d3.svg.area()
+    var area = d3.area()
                 .interpolate("cardinal")
                 .x(function (d) {
-                    return x(d.date);
+                    return x(d.key_as_string);
                 })
                 .y0(function (d) {
                     return y(d.y0);
@@ -217,67 +216,62 @@ $(document).ready(function () {
       });
 
     var time_interval = "hour";
-    var max_users = 15;
+    //var max_users = 15;
 
     date_agg.aggs = {
-            "tagcounts": {
-                "terms": {
-                    "field": "user.id",
-                    "size": max_users
-                    //"min_doc_count": 1000
-                }
-            },
-            "articles_over_time": {
-                "date_histogram": {
-                    "field": "created_at_date",
-                    "interval": time_interval
-                },
-                "aggs": {
-                    "tags": {
-                        "terms": {
-                            "field": "user.id"
-                        }
-                    }
-                }
-            }
-        };
+  
+      "days" : {
+        "date_histogram": {
+          "field": "created_at",
+            "interval": time_interval
+        },
+      "aggs": {
+       "count_per_user" : {
+            "cardinality" : { "field" : "user.id" }
+        }
+    
+      }
+    },
+  "size":0
+};
 
     client.search({
             index: 'user_live_tweets',
+            type: 'tweet',
             body: date_agg
         }).then(function (resp) {
-            //console.log('response:', resp);
+            console.log('response:', resp);
 
-            var tags_defaults = {};
-            resp.aggregations.tagcounts.buckets.forEach(function(v) {
-                tags_defaults[v.key] = 0;
-            });
+            // var tags_defaults = {};
+            // resp.aggregations.tagcounts.buckets.forEach(function(v) {
+            //     tags_defaults[v.key] = 0;
+            // });
 
-            //console.log('tags:', tags_defaults);
-            var series = [], series_pos = [], series_neg = [], series_neut = [];
+            // //console.log('tags:', tags_defaults);
+            // var series = [], series_pos = [], series_neg = [], series_neut = [];
 
-            var buckets = resp.aggregations.articles_over_time.buckets;
-            for (var i = 0; i < buckets.length; ++i) {
-                var elem = buckets[i];
-                var date = new Date(elem.key);
-                var tag_counts = {};
+            // var buckets = resp.aggregations.articles_over_time.buckets;
+            // for (var i = 0; i < buckets.length; ++i) {
+            //     var elem = buckets[i];
+            //     var date = new Date(elem.key);
+            //     var tag_counts = {};
 
-                // we need to have tag counts for each of the tag_default tags at each of the dates
-                elem.tags.buckets.forEach(function(v) {
-                    tag_counts[v.key] = v.doc_count;
-                });
-                tag_counts = _.pick(tag_counts, Object.keys(tags_defaults));
-                tag_counts = _.defaults(tag_counts, tags_defaults);
+            //     // we need to have tag counts for each of the tag_default tags at each of the dates
+            //     elem.tags.buckets.forEach(function(v) {
+            //         tag_counts[v.key] = v.doc_count;
+            //     });
+            //     tag_counts = _.pick(tag_counts, Object.keys(tags_defaults));
+            //     tag_counts = _.defaults(tag_counts, tags_defaults);
 
-                _.each(tag_counts, function(v, k) {
-                   series.push({key: k, value: v, date: date});
-                });
-            }
+            //     _.each(tag_counts, function(v, k) {
+            //        series.push({key: k, value: v, date: date});
+            //     });
+            // }
 
             // $('title').html(tvshow);
             // $('#header h2').text(tvshow);
             //console.log(series);
-            chart(series, "blue");
+            //chart(series, "blue");
         }, function (err) {
             console.trace(err.message);
         });

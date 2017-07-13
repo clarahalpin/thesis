@@ -2,47 +2,18 @@ body {
 	background-color: #FFFFFA;
 }
 
-.col-md-12{
-	background-color: #003459;
-	height:6em;
-}
-
-p{
-	color: black;
-}
-
 .col-md-8 {
 	background-color: #FFFFFA;
 	height:auto;
 }
 
-.ticker-container { 
-  background-color:#ccc;
-  width:300px;
-  height:250px;
-  overflow:hidden;
-  padding:10px;
-  font-family:Helvetica;
+.col-md-12{
+	background-color: #003459;
+	height:6em;
 }
-.ticker-container .mask {
-  position: relative;
-  left: 0px;
-  top: 10px;
-  width:300px;
-  height:240px;
-  overflow: hidden;
+
+.linegraph {
+	position:absolute;
 }
-.ticker-container ul {
-  list-style:none;
-  margin:0;
-  padding:0;
-  position: relative;
-}
-.ticker-container ul li {
-  padding:10px 0px;
-}
-.ticker-container ul li a {
-  color:blue;
-  text-decoration:none;
-}
+
 
