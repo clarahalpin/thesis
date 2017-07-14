@@ -1,17 +1,3 @@
-count all docs in index:
-
-{
-  "size": 0,
-  "aggs": {
-    "count_all_tweets":{
-    
-      "terms": {
-        "field": "id"
-      }
-  }
-  }
-}
-
 date histogram:
 
 {
@@ -161,4 +147,17 @@ date range, histogram and unique users
     },
   "size":0
 
+}
+
+count number of documents in index
+
+{
+    "aggs": {
+        "count_by_type": {
+            "value_count": {
+                "field": "id"
+            }
+        }
+    },
+      "size":0
 }
