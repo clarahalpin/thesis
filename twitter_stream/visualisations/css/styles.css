@@ -16,6 +16,13 @@ body {
 	position:absolute;
 }
 
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+
 #counter{
 	color: black;
 }
