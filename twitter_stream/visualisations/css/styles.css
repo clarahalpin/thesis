@@ -28,3 +28,18 @@ body {
 }
 
 
+#ticker {
+  width:300px; height:300px; overflow:auto; border:1px solid #aaaaaa;
+}
+#ticker dt {
+  font:normal 14px Georgia; padding:0 10px 5px 10px;
+  background-color:#e5e5e5; padding-top:10px; border:1px solid #ffffff;
+  border-bottom:none; border-right:none;
+}
+#ticker dd {
+  margin-left:0; font:normal 11px Verdana; padding:0 10px 10px 10px;
+  border-bottom:1px solid #aaaaaa; background-color:#e5e5e5;
+  border-left:1px solid #ffffff;
+}
+#ticker dd.last { border-bottom:1px solid #ffffff;}
+
