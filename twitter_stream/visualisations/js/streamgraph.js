@@ -70,9 +70,7 @@ var svg = d3.select(".streamgraph").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  
-//was just stack(nest.entries(data))
-  var layers = d3.nest().entries(data);
+  var layers = stack(nest.entries(data);
 
   x.domain(d3.extent(data, function(d) { return d.key_as_string; }));
   y.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);

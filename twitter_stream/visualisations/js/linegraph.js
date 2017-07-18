@@ -15,7 +15,7 @@ $(document).ready(function () {
         	}
         });
 
-	var query = {
+	var query ={
 		"query": {
 			"range" : {
 				"created_at" : {
@@ -29,16 +29,11 @@ $(document).ready(function () {
 				"date_histogram": {
 					"field": "created_at",
 					"interval": "hour"
-				},
-				"aggs": {
-					"count_per_user" : {
-						"cardinality" : { "field" : "user.id" }
-					}
-				}
-			}
-		},
-		"size":0
-	};
+				}}},
+     "size":0
+        
+        
+      }    
 
 	client.search({
 		index: 'user_live_tweets',
