@@ -1,3 +1,17 @@
+count all docs in index:
+
+{
+  "size": 0,
+  "aggs": {
+    "count_all_tweets":{
+    
+      "terms": {
+        "field": "id"
+      }
+  }
+  }
+}
+
 date histogram:
 
 {
@@ -119,45 +133,42 @@ query on date range
     }
 }
 
-date range, histogram and unique users
+
+
+count every hour
+
+{
+		"query": {
+			"range" : {
+				"created_at" : {
+					"gte" :"Wed Jun 14 00:00:00 +0000 2017",
+					"lt" : "Thu Jun 15 00:00:00 +0000 2017"
+				}
+			}
+		},
+		"aggs" : {
+			"days" : {
+				"date_histogram": {
+					"field": "created_at",
+					"interval": "hour"
+				}}},
+     "size":0
+        
+        
+      }    
+
+sort by most recent tweet
 
 {
   "query": {
-    "range" : {
-      "created_at" : {
-                "gte" :"Wed Jun 14 00:00:00 +0000 2017",
-                "lt" : "Thu Jun 15 00:00:00 +0000 2017"
-            }
-        }
-    },
-      
-  
-    "aggs" : {
-      "days" : {
-        "date_histogram": {
-          "field": "created_at",
-            "interval": "hour"
-        },
-      "aggs": {
-       "count_per_user" : {
-            "cardinality" : { "field" : "user.id" }
-        }
-    }
+    "match_all": {}
+  },
+  "sort": [
+    {
+      "timestamp_ms": {
+        "order": "desc"
       }
-    },
-  "size":0
-
-}
-
-count number of documents in index
-
-{
-    "aggs": {
-        "count_by_type": {
-            "value_count": {
-                "field": "id"
-            }
-        }
-    },
-      "size":0
-}
+    }
+  ],
+    "size":1
+} 
