@@ -21,6 +21,7 @@ $(document).ready(function () {
 	function go() {
 		
 		client.search({
+			//index:"idx_tweets",
 			index: 'user_live_tweets',
 			type: 'tweet',
 			body: query
