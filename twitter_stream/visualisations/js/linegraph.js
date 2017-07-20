@@ -14,7 +14,14 @@ $(document).ready(function () {
         		console.log("elasticsearch is running");
         	}
         });
-
+// $('#datetimepicker5').datetimepicker({
+//                     defaultDate: "11/1/2013",
+//                     disabledDates: [
+//                         moment("12/25/2013"),
+//                         new Date(2013, 11 - 1, 21),
+//                         "11/22/2013 00:53"
+//                     ]
+//                 });
 	var query ={
 		"query": {
 			"range" : {
@@ -50,15 +57,23 @@ $(document).ready(function () {
 		width = 600,
 		height = 300;
 
-		var parseTime = d3.timeParse("%a %b %d %H:%M:%S %Z %Y");
+		var format = d3.time.format("%a %b %d %H:%M:%S +0000 %Y");
 
 
 	// set the ranges
-	var x = d3.scaleTime().range([0, width]);
-	var y = d3.scaleLinear().range([height, 0]);
+	var x = d3.time.scale().range([0, width]);
+	var y = d3.scale.linear().range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
 
 	// define the line
-	var valueline = d3.line()
+	var valueline = d3.svg.line()
 	.x(function(d) { return x(d.key_as_string); })
 	.y(function(d) { return y(d.doc_count); });
 
@@ -73,7 +88,7 @@ $(document).ready(function () {
 		"translate(" + margin.left + "," + margin.top + ")");
 	
 	days.forEach(function(d) {
-		d.key_as_string = parseTime(d.key_as_string);
+		d.key_as_string = format.parse(d.key_as_string);
 		d.doc_count = +d.doc_count;
 	});
 	// Scale the range of the data
@@ -82,25 +97,21 @@ $(document).ready(function () {
 
 	  // Add the valueline path.
 	  svg.append("path")
-	  .data([days])
 	  .attr("class", "line")
-	  .attr("d", valueline);
+	  .attr("d", valueline(days));
 
 	  // Add the X Axis
 	  svg.append("g")
 	  .attr("transform", "translate(0," + height + ")")
-	  .call(d3.axisBottom(x)
-	  	.tickFormat(d3.timeFormat("%H:%M")));
+    .attr("class", "x axis")
+	  .call(xAxis);
 
 	  // Add the Y Axis
 	  svg.append("g")
-	  .call(d3.axisLeft(y));
+    .attr("class", "y axis")
+	  .call(yAxis);
 	            // linechart();
 	        }, function (err) {
 	        	console.trace(err.message);
 	        });
-
-
-
-
 });
