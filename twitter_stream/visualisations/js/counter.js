@@ -22,7 +22,7 @@ $(document).ready(function () {
 			type: 'tweet',
 			body: count
 		}).then(function (resp) {
-			console.log('response:', resp);
+			//console.log('response:', resp);
 			var start = resp.aggregations.count_by_type.value;
 			$("#counter").html(start.toFixed(0));
 	
@@ -35,6 +35,6 @@ $(document).ready(function () {
 go();
 setInterval(function () {
 				go();
-			}, 10000);
+			}, 1000);
 });
 

@@ -19,8 +19,8 @@ $(document).ready(function () {
 		"query": {
 			"range" : {
 				"created_at" : {
-					"gte" :"Wed Jun 14 00:00:00 +0000 2017",
-					"lt" : "Thu Jun 15 00:00:00 +0000 2017"
+					"gte" :"Thu Jun 15 00:00:00 +0000 2017",
+					"lt" : "Fri Jun 16 00:00:00 +0000 2017"
 				}
 			}
 		},
