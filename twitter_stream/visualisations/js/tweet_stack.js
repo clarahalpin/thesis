@@ -10,15 +10,17 @@ $(document).ready(function () {
 		},
 		"sort": [
 		{
-			"timestamp_ms": {
+			"id": {
 				"order": "desc"
 			}
 		}
 		],
-		"size":1
 	} 
-		
-	client.search({
+	var tweets = [];
+
+
+	function go() {
+		client.search({
 		//index:"idx_tweets",
 		index: 'user_live_tweets',
 		type: 'tweet',
@@ -28,7 +30,7 @@ $(document).ready(function () {
 
 		var response = resp.hits.hits;
 
-		var tweet_array = new Queue();
+		
 		var length = 10;
 		
 		for (i = 0; i < response.length; i++) { 
@@ -36,26 +38,47 @@ $(document).ready(function () {
 		    //console.log(text);
 		    var username = response[i]["_source"]["user"]["screen_name"];
 		    //console.log(username);
-		    tweet_array.enqueue({
-    			key:   username,
-    			value: text
-			});
-		}
+		    //var index = tweets.map(function(o) { return o.key; }).indexOf(text);
+		    //if (index ==-1) {
+		    	tweets[text] = username;
 
-		while (tweet_array > length) {
-			tweet_array.dequeue();
-		}
 
-		for(var i =0; i<tweet_array.length; i++) {
-			var items = document.getElementByID("stack");
-			var item = document.createElement("li");
-        	item.innerHTML = tweet_array[i];
-        	items.appendChild(item);
+		    	// if (tweets.indexOf(item) === -1) {}
+		    	// tweets[text] = username;
+		    	// 	key:   text,
+		    	// 	value: username
+		    	// });
+		    //}
 		}
+		console.log(tweets);
+
+		// for(var i =0; i<tweets.length; i++) {
+
+			for (var k in tweets){
+    if (tweets.hasOwnProperty(k)) {
+    	if (tweets.indexOf(k) < 0) {
+    	$('#stack').prepend('<li>' +k+ "<br>" +tweets[k]+ '</li>');
+         //alert("Key is " + k + ", value is" + tweets[k]);
+    }}
+}
+			// var items = document.getElementById("stack");
+			// var item = document.createElement("li");
+			// item.innerHTML = tweet_array[i];
+			// items.appendChild(item);
+		// }
+	// }
 
 }, function (err) {
 	console.trace(err.message);
 });
+
+};
+
+go();
+// setInterval(function () {
+// 	go();
+// }, 1000);
 });
 
-	
+
+
