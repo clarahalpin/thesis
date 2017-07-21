@@ -8,15 +8,21 @@
 	<title>Analytics</title>
 
 	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="css/bootstrap-datepicker3.min.css" type="text/css" />
+
 	<link rel="stylesheet" href="css/styles.css" type="text/css" />
+	        <link rel="stylesheet/less" href="less/dropdowns.less">
+
 	<script type ="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<script type ="text/javascript" src="js/elasticsearch.min.js"></script>
 	<script type ="text/javascript" src="js/elasticsearch.jquery.js"></script>
+	<script type ="text/javascript" src = "js/bootstrap-datepicker.min.js"></script>
+
 	<script src="http://d3js.org/d3.v2.js"></script>
-	<!-- <script type ="text/javascript" src = "js/streamgraph.js"></script>
-	<script type ="text/javascript" src = "js/linegraph.js"></script> -->
+	<script type ="text/javascript" src = "js/streamgraph.js"></script>
+	<script type ="text/javascript" src = "js/linegraph.js"></script>
 	<script type ="text/javascript" src = "js/tweet_stack.js"></script>
-	<!-- <script type ="text/javascript" src = "js/counter.js"></script>  -->
+	<script type ="text/javascript" src = "js/counter.js"></script> 
 
 </head>
 
@@ -38,6 +44,9 @@
 
 		<div class = "row">
 			<div class = "col-md-4">
+				<div class="input-group date">
+  					<input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+				</div>
 				<div class="linegraph">
 				</div>
 			</div>
