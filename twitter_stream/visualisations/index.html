@@ -2,15 +2,15 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Analytics</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
     <!-- <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css" type="text/css"/> -->
 
-    <link rel="stylesheet" href="css/styles.css" type="text/css"/>
+    <link rel="stylesheet" href="css/styles.css" type="text/css" />
     <!-- <link rel="stylesheet/less" href="less/dropdowns.less"/> -->
 
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
@@ -19,96 +19,103 @@
     <script src="js/lodash.js"></script>
     <script src="js/d3.min.js"></script>
     <script type="text/javascript" src="js/c3.min.js"></script>
-    <link rel="stylesheet" href="css/c3.min.css"/>
+    <link rel="stylesheet" href="css/c3.min.css" />
     <!--<script type ="text/javascript" src = "js/bootstrap-datepicker.min.js"></script>-->
 
 
     <!-- <script type="text/javascript" src="js/moment.js"></script> -->
     <!--<script type ="text/javascript" src = "js/datetimepicker.js"></script> -->
 
-    <!--<script type ="text/javascript" src = "js/streamgraph.js"></script>-->
+    <script type="text/javascript" src="js/areagraph.js"></script>
     <script type="text/javascript" src="js/linegraph.js"></script>
-    <!--<script type ="text/javascript" src = "js/tweet_stack.js"></script>-->
-    <!--<script type ="text/javascript" src = "js/counter.js"></script> -->
+    <script type="text/javascript" src="js/tweet_list.js"></script>
+    <script type="text/javascript" src="js/counter.js"></script>
 
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-        </div>
-    </div>
+    <div class="container-fluid">
+        <div class = "row">
+            <div class="col-md-12" id = "header"></div>
 
-    <div class="row">
-        <div class="col-md-4">
         </div>
-        <div class="col-md-8">
-            <div class="streamgraph">
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <!-- <div class="input-group date">
-                <input type="text" class="form-control"><span class="input-group-addon"><i
-                    class="glyphicon glyphicon-th"></i></span>
-            </div> -->
-            <div class="linegraph">
-            </div>
-            <!-- <div class="form-group">
-                <div class='input-group date' id='datetimepicker5'>
-                    <input type='text' class="form-control"/>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+        <div class="row">
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="areagraph">
+                        </div>
+                    </div>
                 </div>
-            </div> -->
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div id="counter"></div>
-            </div>
-            <div class="row">
-                <div class="wordcloud">
-
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="linegraph">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id = "counter_text"><h3>Total Number of Bot Tweets since June 2017:</h3></div>
+                        <div id="counter">
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div id="stack">
+            <div class = "col-md-1"></div>
+            <div class="col-md-4">
+<!--
+                <div class="row">
+                    <div class="col-md-12">
+                       <div id = "counter_text"><h3>Total Number of Bot Tweets since June 2017:</h3></div>
+                        <div id="counter">
+                            
+                        </div>
+                    </div>
+                </div>
+-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="stack">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <script>
+        var client = null;
 
-    <!-- <div class = "row">
-        <div class="col-md-12" id = "footer">
-        </div>
-    </div> -->
-</div>
-<script>
-    var client = null;
+        $(document).ready(function() {
+            client = new $.es.Client({
+                hosts: 'localhost:9212',
+                log: 'trace'
+            });
 
-    $(document).ready(function () {
-        client = new $.es.Client({
-            hosts: 'localhost:9212',
-            log: 'trace'
+            client.ping({
+                // ping usually has a 3000ms timeout
+                requestTimeout: 1000
+            }, function(error) {
+                if (error) {
+                    console.trace('elasticsearch cluster is down!');
+                } else {
+                    console.log("elasticsearch is running");
+                }
+            });
+
+            start_linegraph();
+            start_areagraph();
+            start_counter();
+            setInterval(function() {
+                start_counter();
+            }, 1000);
+            start_tweet_list();
+            setInterval(function() {
+                $("#counter").html("");
+                start_tweet_list();
+            }, 5000);
+
         });
 
-        client.ping({
-          // ping usually has a 3000ms timeout
-          requestTimeout: 1000
-        }, function (error) {
-          if (error) {
-            console.trace('elasticsearch cluster is down!');
-          } else {
-            console.log("elasticsearch is running");
-          }
-        });
-
-        start_linegraph();
-    });
-</script>
+    </script>
 </body>
+
 </html>

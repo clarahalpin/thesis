@@ -1,4 +1,3 @@
-
 function draw_linegraph_old(resp) {
         console.log('response:', resp);
         var days = resp.aggregations.days.buckets;
@@ -76,7 +75,7 @@ function draw_linegraph_c3(resp) {
     });
     var y = _.map(days, function(v){
         return v.doc_count;
-    })
+    });
     x.unshift('Date');
     y.unshift('Number of Tweets');
     console.log('x', x);
