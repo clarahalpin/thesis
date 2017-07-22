@@ -1,10 +1,10 @@
 var tweets = [];
 
 function draw_list(resp) {
+    $("#tweet_list").html('');
     console.log(resp);
     var response = resp.hits.hits;
-    
-    $("#tweet_list").empty();
+    tweets = [];
     for (i = 0; i < response.length; i++) {
         var text = response[i]["_source"]["text"];
     //console.log(text);
@@ -21,12 +21,12 @@ function draw_list(resp) {
         //console.log(i.username);
         $('#tweet_list').prepend('<li>' + i.text + "<br>" + i.username + '</li>');
     });
-
 };
 
 function start_tweet_list() {
     
-    
+        
+
     var query = {
         "query": {
             "match_all": {}

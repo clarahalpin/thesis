@@ -35,8 +35,8 @@
 
 <body>
     <div class="container-fluid">
-        <div class = "row">
-            <div class="col-md-12" id = "header"></div>
+        <div class="row">
+            <div class="col-md-12" id="header"></div>
 
         </div>
         <div class="row">
@@ -53,28 +53,23 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div id = "counter_text"><h3>Total Number of Bot Tweets since June 2017:</h3></div>
+                        <div id="counter_text">
+                            <h3>Total Number of Bot Tweets since June 2017:</h3>
+                        </div>
                         <div id="counter">
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
-            <div class = "col-md-1"></div>
+            <div class="col-md-1"></div>
             <div class="col-md-4">
-<!--
                 <div class="row">
                     <div class="col-md-12">
-                       <div id = "counter_text"><h3>Total Number of Bot Tweets since June 2017:</h3></div>
-                        <div id="counter">
-                            
-                        </div>
-                    </div>
-                </div>
--->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="stack">
+                        <div id="counter_text">
+                            <h3>Ten Most Recent Bot Tweets:</h3>
+                            <div id="tweet_list">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -109,7 +104,6 @@
             }, 1000);
             start_tweet_list();
             setInterval(function() {
-                $("#counter").html("");
                 start_tweet_list();
             }, 5000);
 

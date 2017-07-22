@@ -1,31 +1,49 @@
 body {
-	background-color: #FFFFFA;
+    background-color: #BBC2C4;
 }
 
+.col-md-12#header {
+    margin: 0;
+    height: 6em;
+    background-color: #153351;
+}
+
+.col-md-4 {
+    margin-left 2%;
+    background-color: #FFFFFF;
+}
 .col-md-8 {
-	background-color: #FFFFFA;
-	height:auto;
+    background-color: #FFFFFF;
 }
 
-.col-md-12{
-	background-color: #003459;
-	height:6em;
+.col-md-12 {
+    background-color: #FFFFFF;
+    height: auto;
+    margin-left: 2%;
+    margin-top: 2%;
 }
 
-.linegraph {
-	position:absolute;
-	width: 100%;
+.col-md-1 {
+    color: #BBC2C4;
+    width: 4.166%;
 }
 
 .line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 2px;
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
+li {
+    border-bottom:1px solid #aaaaaa;
+    list-style: none;
+    margin-top: 2%;
+    padding-bottom: 2%;
 }
 
-#counter{
-	color: black;
-  	font:normal 20px Arial;
-  	margin-left:50px;
+#counter {
+    color: #153351;
+    font: normal 20px Arial;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 4em;
 }
-
