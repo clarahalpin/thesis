@@ -1,7 +1,7 @@
 var datearray = [];
 var colorrange =[];
 
-function chart(data, color) {
+function oldchart(data, color) {
 
   if (color == "blue") {
     colorrange = ["#045A8D", "#2B8CBE", "#74A9CF", "#A6BDDB", "#D0D1E6", "#F1EEF6"];
@@ -156,27 +156,13 @@ var svg = d3.select(".chart").append("svg")
          mousex = mousex[0] + 5;
          vertical.style("left", mousex + "px")});
 
-
+// chart(series,"blue");
 };
 
-$(document).ready(function () {
-var client = new $.es.Client({
-  hosts: 'localhost:9212',
-  log: 'trace'
-});
-
-client.ping({
-          // ping usually has a 3000ms timeout
-          requestTimeout: 1000
-        }, function (error) {
-          if (error) {
-            console.trace('elasticsearch cluster is down!');
-          } else {
-            console.log("elasticsearch is running");
-          }
-        });
-
-var query = {
+function start_areagraph() {
+    console.log('start_areagraph()');
+ 
+    var query = {
   "aggs" : {
     "days" : {
       "date_histogram": {
@@ -193,13 +179,16 @@ var query = {
   "size":0
 }
 
+    client.search({
+        index: 'user_live_updated',
+        type: 'tweet',
+        body: query
+    }).then(draw_areagraph_c3, function (err) {
+        console.trace(err.message);
+    });
 
-client.search({
-  index: 'user_live_tweets',
-  type: 'tweet',
-  body: query
-}).then(function (resp) {
-  console.log('response:', resp);
+};
+
 
   var days = resp.aggregations.days.buckets;
 
@@ -209,6 +198,6 @@ client.search({
 
   console.log(series);
 
- chart(series,"blue");
+ 
 });
-});
+};

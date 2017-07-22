@@ -8,10 +8,10 @@
     <title>Analytics</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
-    <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css" type="text/css"/>
+    <!-- <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css" type="text/css"/> -->
 
     <link rel="stylesheet" href="css/styles.css" type="text/css"/>
-    <link rel="stylesheet/less" href="less/dropdowns.less"/>
+    <!-- <link rel="stylesheet/less" href="less/dropdowns.less"/> -->
 
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/elasticsearch.min.js"></script>
@@ -23,7 +23,7 @@
     <!--<script type ="text/javascript" src = "js/bootstrap-datepicker.min.js"></script>-->
 
 
-    <script type="text/javascript" src="js/moment.js"></script>
+    <!-- <script type="text/javascript" src="js/moment.js"></script> -->
     <!--<script type ="text/javascript" src = "js/datetimepicker.js"></script> -->
 
     <!--<script type ="text/javascript" src = "js/streamgraph.js"></script>-->
@@ -51,20 +51,20 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="input-group date">
+            <!-- <div class="input-group date">
                 <input type="text" class="form-control"><span class="input-group-addon"><i
                     class="glyphicon glyphicon-th"></i></span>
-            </div>
+            </div> -->
             <div class="linegraph">
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <div class='input-group date' id='datetimepicker5'>
                     <input type='text' class="form-control"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="col-md-4">
             <div class="row">
@@ -94,6 +94,17 @@
         client = new $.es.Client({
             hosts: 'localhost:9212',
             log: 'trace'
+        });
+
+        client.ping({
+          // ping usually has a 3000ms timeout
+          requestTimeout: 1000
+        }, function (error) {
+          if (error) {
+            console.trace('elasticsearch cluster is down!');
+          } else {
+            console.log("elasticsearch is running");
+          }
         });
 
         start_linegraph();

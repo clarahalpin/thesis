@@ -65,7 +65,6 @@ function draw_linegraph_old(resp) {
         svg.append("g")
             .attr("class", "y axis")
             .call(yAxis);
-        // linechart();
 };
 
 function draw_linegraph_c3(resp) {
@@ -78,14 +77,14 @@ function draw_linegraph_c3(resp) {
     var y = _.map(days, function(v){
         return v.doc_count;
     })
-    x.unshift('x');
-    y.unshift('y');
+    x.unshift('Date');
+    y.unshift('Number of Tweets');
     console.log('x', x);
     console.log('y', y);
     var chart = c3.generate({
         bindto: '.linegraph',
         data: {
-            x: 'x',
+            x: 'Date',
             //xFormat: '"%a %b %d %H:%M:%S %Z %Y"', // 'xFormat' can be used as custom format of 'x'
             columns: [
                 x,
@@ -107,25 +106,7 @@ function draw_linegraph_c3(resp) {
 
 function start_linegraph() {
     console.log('start_linegraph()');
-    client.ping({
-        // ping usually has a 3000ms timeout
-        requestTimeout: 1000
-
-    }, function (error) {
-        if (error) {
-            console.trace('elasticsearch cluster is down!');
-        } else {
-            console.log("elasticsearch is running");
-        }
-    });
-// $('#datetimepicker5').datetimepicker({
-//                     defaultDate: "11/1/2013",
-//                     disabledDates: [
-//                         moment("12/25/2013"),
-//                         new Date(2013, 11 - 1, 21),
-//                         "11/22/2013 00:53"
-//                     ]
-//                 });
+ 
     var query = {
         "query": {
             "range": {
@@ -146,12 +127,9 @@ function start_linegraph() {
         },
         "size": 0
     };
-// $('#sandbox-container .input-group.date').datepicker({
-//     format: "dd/mm/yyyy",
-//     datesDisabled: ['07/06/2017', '07/21/2017']
-// });
+
     client.search({
-        index: 'user_live_tweets',
+        index: 'user_live_updated',
         type: 'tweet',
         body: query
     }).then(draw_linegraph_c3, function (err) {
