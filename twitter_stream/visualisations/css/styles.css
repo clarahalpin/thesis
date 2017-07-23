@@ -14,18 +14,22 @@ body {
 }
 .col-md-8 {
     background-color: #FFFFFF;
+    margin-left 2%;
 }
 
 .col-md-12 {
     background-color: #FFFFFF;
     height: auto;
-    margin-left: 2%;
-    margin-top: 2%;
+/*    margin-left: 2%;*/
+/*    margin-top: 2%;*/
+}
+.row{
+    margin-top:1%;
 }
 
 .col-md-1 {
     color: #BBC2C4;
-    width: 4.166%;
+    width: 2.166%;
 }
 
 .line {
@@ -38,6 +42,10 @@ li {
     list-style: none;
     margin-top: 2%;
     padding-bottom: 2%;
+}
+
+li:last-child {
+    border-bottom: 0;
 }
 
 #counter {
