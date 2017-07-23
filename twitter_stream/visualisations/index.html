@@ -8,10 +8,7 @@
     <title>Analytics</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-    <!-- <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css" type="text/css"/> -->
-
     <link rel="stylesheet" href="css/styles.css" type="text/css" />
-    <!-- <link rel="stylesheet/less" href="less/dropdowns.less"/> -->
 
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/elasticsearch.min.js"></script>
@@ -20,11 +17,6 @@
     <script src="js/d3.min.js"></script>
     <script type="text/javascript" src="js/c3.min.js"></script>
     <link rel="stylesheet" href="css/c3.min.css" />
-    <!--<script type ="text/javascript" src = "js/bootstrap-datepicker.min.js"></script>-->
-
-
-    <!-- <script type="text/javascript" src="js/moment.js"></script> -->
-    <!--<script type ="text/javascript" src = "js/datetimepicker.js"></script> -->
 
     <script type="text/javascript" src="js/areagraph.js"></script>
     <script type="text/javascript" src="js/linegraph.js"></script>
@@ -35,51 +27,87 @@
 
 <body>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12" id="header"></div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-7">
+        <div class="main-container">
+            <div class="main-header row">
+                <h3 class="heading">
+                    Dashboard
+                </h3>
+            </div>
+            <div class="main-content">
                 <div class="row">
-                    <div class="col-md-12">
-                       <div id="counter_text">
-                            <h3>Area Graph of Number of Tweets</h3>
-                            <div class="areagraph">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-area">
+                                    <div class="box-header with-border">
+                                        <h3 class="box_title">Areagraph</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="areagraph">
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
-                        
-                        
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="linegraph">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div id="counter_text">
-                            <h3>Total Number of Bot Tweets since June 2017</h3>
-                            <br>
-                        </div>
-                        <div id="counter">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="box box-line">
+                                    <div class="box-header with-border">
+                                        <h3 class="box_title">Number of Bot Tweets over time</h3>
+                                        <div class="box-tools pull-right">
+                                            <button onclick="selectTimeFrame()" class="dropbtn">Select Time</button>
+                                            <div id="timeDropdown" class="dropdown-content">
+                                                <a href="#">Link 1</a>
+                                                <a href="#">Link 2</a>
+                                                <a href="#">Link 3</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="linegraph">
+                                        </div>
+                                    </div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-4">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="counter_text">
-                            <h3>Ten Most Recent Bot Tweets</h3>
-                            <div id="tweet_list">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box box-counter">
+                                    <div class="box-header with-border">
+                                        <h3 class="box_title">Number of Bot Tweets since June 2017</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="counter">
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-tweets">
+                                    <div class="box-header with-border">
+                                        <h3 class="box_title">Most Recent Bot Tweets</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="tweet_list">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
+
             </div>
+            <footer class="footer-main">
+                2017 &copy Clara Halpin
+            </footer>
         </div>
     </div>
     <script>

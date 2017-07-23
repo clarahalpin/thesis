@@ -1,10 +1,11 @@
 function draw_counter(resp) {
     //console.log(resp);
     var count = resp.aggregations.count_by_type.value;
-    $("#counter").html(count.toFixed(0));
+    $(".counter").html(count.toFixed(0));
 };
 
 function start_counter() {
+    console.log("start_counter");
     var query = {
         "aggs": {
             "count_by_type": {

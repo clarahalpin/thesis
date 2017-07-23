@@ -54,7 +54,7 @@ function timeStamp(dateTime) {
 }
 
 function draw_list(resp) {
-    $("#tweet_list").html('');
+    $(".tweet_list").html('');
     console.log(resp);
     var response = resp.hits.hits;
     tweets = [];
@@ -79,7 +79,7 @@ function draw_list(resp) {
 
         var user = "@" + i.username;
 
-        $('#tweet_list').prepend('<li>' + i.text + "<br>" + "<a href='http://www.twitter.com/" + i.username + "'>" + user + "</a>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + timeStamp(i.time) + '</li>');
+        $('.tweet_list').prepend('<li>' + i.text + "<br>" + "<a href='http://www.twitter.com/" + i.username + "'>" + user + "</a>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + timeStamp(i.time) + '</li>');
     });
 };
 
