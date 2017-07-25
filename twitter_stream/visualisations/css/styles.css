@@ -81,6 +81,10 @@ h3 {
 .pull-right {
     float:right;
 }
+
+.cog {
+    background-image: url(../img/cog.png);
+}
 .counter {
     color: #3367d6;
     text-align: center;

@@ -6,13 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Analytics</title>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/styles.css" type="text/css" />
 
-    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/elasticsearch.min.js"></script>
     <script type="text/javascript" src="js/elasticsearch.jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
     <script src="js/lodash.js"></script>
     <script src="js/d3.min.js"></script>
     <script type="text/javascript" src="js/c3.min.js"></script>
@@ -22,6 +25,149 @@
     <script type="text/javascript" src="js/linegraph.js"></script>
     <script type="text/javascript" src="js/tweet_list.js"></script>
     <script type="text/javascript" src="js/counter.js"></script>
+    <script type="text/javascript">
+        var query24h = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-24h"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "hour"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var query3d = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-3d"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "6h"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var query5d = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-5d"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "6h"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var query7d = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-7d"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "6h"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var query14d = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-14d"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "6h"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var query1M = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-1M"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "day"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var queryall = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        //"gte": "now-12h"
+                        "lt": "now"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "24h"
+                    }
+                }
+            },
+            "size": 0
+        };
+
+    </script>
 
 </head>
 
@@ -56,11 +202,20 @@
                                     <div class="box-header with-border">
                                         <h3 class="box_title">Number of Bot Tweets over time</h3>
                                         <div class="box-tools pull-right">
-                                            <button onclick="selectTimeFrame()" class="dropbtn">Select Time</button>
-                                            <div id="timeDropdown" class="dropdown-content">
-                                                <a href="#">Link 1</a>
-                                                <a href="#">Link 2</a>
-                                                <a href="#">Link 3</a>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                    
+                                                    <i class="fa fa-wrench"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#!" onclick="start_linegraph(query24h)">Last 24 hours</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(query3d)">Last 3 days</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(query5d)">Last 5 days</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(query7d)">Last 7 days</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(query14d)">Last 14 days</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(query1M)">Last 1 month</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(queryall)">All</a></li>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +285,9 @@
                 }
             });
 
-            start_linegraph();
+
+
+            start_linegraph(query7d);
             start_areagraph();
             start_counter();
             setInterval(function() {
