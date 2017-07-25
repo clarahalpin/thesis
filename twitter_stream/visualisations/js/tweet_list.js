@@ -79,7 +79,7 @@ function draw_list(resp) {
 
         var user = "@" + i.username;
 
-        $('.tweet_list').prepend('<li>' + i.text + "<br>" + "<a href='http://www.twitter.com/" + i.username + "'>" + user + "</a>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + timeStamp(i.time) + '</li>');
+        $('.tweet_list').prepend('<li><span class = "tweet_text">' + i.text + "</span><br>" + "&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://www.twitter.com/" + i.username + "'>" + user + "</a>" + "<span class = 'timeStamp'>" + timeStamp(i.time) + '</span></li>');
     });
 };
 
