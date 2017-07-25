@@ -5,7 +5,7 @@ from textwrap import TextWrapper
 from datetime import datetime
 from elasticsearch import Elasticsearch
 
-config = json.load(open('config.json', 'r'))
+config = json.load(open('config2.json', 'r'))
 
 consumer_key= config.get('consumer_key', None)
 consumer_secret= config.get('consumer_secret', None)
@@ -42,7 +42,7 @@ class StreamListener(tweepy.StreamListener):
         try:
             json_data = status._json
             #print json_data['text']
-            es.index(index="idx_live_tweets",
+            es.index(index="live_updated",
                      doc_type="tweet",
                      body=json_data)
             
@@ -68,7 +68,7 @@ def main():
 if __name__ == '__main__':
 #    try:
      print(es)
-     index="idx_live_tweets"
+     index="live_updated"
      if es.indices.exists(index):
              print('index already exists', index)
      else:
