@@ -28,7 +28,12 @@ def create_index(es, index=None, mapping=None, settings=None):
                                         "type": "long"
                                     },
                                     "text": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "fields": {
+                                            "keyword": {
+                                                "type": "keyword"
+                                            }
+                                        }
                                     }
                                 }
                             },
@@ -77,9 +82,9 @@ def create_index(es, index=None, mapping=None, settings=None):
                             "attributes": {
                                 "type": "object"
                             },
-                            "bounding_box": {
-                                "type": "geo_shape"
-                            },
+                            #"bounding_box": {
+                             #   "type": "geo_shape"
+                            #},
                             "country": {
                                 "index": "not_analyzed",
                                 "type": "string"
@@ -245,13 +250,13 @@ def create_index(es, index=None, mapping=None, settings=None):
         }
         }
         
-        settings =  {"settings": {
-            #  "index.mapping.total_fields.limit": 2000
-        }}
+        settings =  {
+              "index.mapping.total_fields.limit": 10000
+        }
         if settings is not None:
             mapping['settings'] = settings
             
-            
+        print('mapping', mapping)
         for i in es.indices.get('*'):
             print('index:', i)
         es.indices.delete(index=index, ignore=[400, 404])
@@ -263,7 +268,7 @@ def create_index(es, index=None, mapping=None, settings=None):
             return
 
 print(es)
-index="idx_past_tweets_updated"
+index="past_user_analysis"
 if es.indices.exists(index):
     print('index already exists', index)
 else:

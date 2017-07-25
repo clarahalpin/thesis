@@ -65,7 +65,7 @@ class StreamListener(tweepy.StreamListener):
                         #print json_data['text']
                         #print('on_data', json_data.keys(), json_data['text'])
                         #print('tweet', json_data['text'])
-                        es.index(index="idx_user_live_tweets",
+                        es.index(index="user_live_updated",
                                  doc_type="tweet",
                                  body=json_data)
             
@@ -92,7 +92,7 @@ def main():
 if __name__ == '__main__':
 #    try:
         print(es)
-        index="idx_user_live_tweets"
+        index="user_live_updated"
         if es.indices.exists(index):
                 print('index already exists', index)
         else:
