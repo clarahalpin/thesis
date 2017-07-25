@@ -172,3 +172,16 @@ sort by most recent tweet
   ],
     "size":1
 } 
+
+top three users
+
+{
+	"aggs": {
+        "top_users": {
+          "terms": {
+            "field": "user.id",
+            "size": 3
+          }
+        }
+      }     
+}
