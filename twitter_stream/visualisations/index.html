@@ -2,60 +2,305 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Analytics</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analytics</title>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 
-	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-	<link rel="stylesheet" href="css/styles.css" type="text/css" />
-	<script type ="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script type ="text/javascript" src="js/elasticsearch.min.js"></script>
-	<script type ="text/javascript" src="js/elasticsearch.jquery.js"></script>
-	<script type ="text/javascript" src="js/d3.min.js"></script>
-	<script type ="text/javascript" src = "js/streamgraph.js"></script>
-	<!--<script src = "js/d3.layout.cloud.js"></script>-->
-	<!--<script src = "js/wordcloud.js"></script>-->
-	<!--<script src = "js/streamgraph.js"></script>-->
-	
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/styles.css" type="text/css" />
+
+    <script type="text/javascript" src="js/elasticsearch.min.js"></script>
+    <script type="text/javascript" src="js/elasticsearch.jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+    <script src="js/lodash.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script type="text/javascript" src="js/c3.min.js"></script>
+    <link rel="stylesheet" href="css/c3.min.css" />
+
+    <script type="text/javascript" src="js/areagraph.js"></script>
+    <script type="text/javascript" src="js/linegraph.js"></script>
+    <script type="text/javascript" src="js/tweet_list.js"></script>
+    <script type="text/javascript" src="js/counter.js"></script>
+    <script type="text/javascript">
+        var query24h = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-24h"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "hour"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var query3d = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-3d"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "6h"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var query5d = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-5d"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "6h"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var query7d = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-7d"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "6h"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var query14d = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-14d"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "6h"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var query1M = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        "gte": "now-1M"
+                        //"lt" : "Sat Jun 10 00:00:00 +0000 2017"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "day"
+                    }
+                }
+            },
+            "size": 0
+        };
+        var queryall = {
+            "query": {
+                "range": {
+                    "created_at": {
+                        //"gte": "Thu Jun 08 00:00:00 +0000 2017",
+                        //"gte": "now-12h"
+                        "lt": "now"
+                    }
+                }
+            },
+            "aggs": {
+                "days": {
+                    "date_histogram": {
+                        "field": "created_at",
+                        "interval": "24h"
+                    }
+                }
+            },
+            "size": 0
+        };
+
+    </script>
+
 </head>
 
 <body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <div class="main-header row">
+                <h3 class="heading">
+                    Dashboard
+                </h3>
+            </div>
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-area">
+                                    <div class="box-header with-border">
+                                        <h3 class="box_title">Areagraph</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="areagraph">
+                                        </div>
+                                    </div>
 
-	<div class = "container-fluid">
-		<div class = "row">
-			<div class="col-md-12">
-			</div>	
-		</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="box box-line">
+                                    <div class="box-header with-border">
+                                        <h3 class="box_title">Number of Bot Tweets over time</h3>
+                                        <div class="box-tools pull-right">
+                                            <div class="dropdown">
+                                                <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                    
+                                                    <i class="fa fa-wrench"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#!" onclick="start_linegraph(query24h)">Last 24 hours</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(query3d)">Last 3 days</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(query5d)">Last 5 days</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(query7d)">Last 7 days</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(query14d)">Last 14 days</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(query1M)">Last 1 month</a></li>
+                                                    <li><a href="#!" onclick="start_linegraph(queryall)">All</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="linegraph">
+                                        </div>
+                                    </div>
 
-		<div class = "row">
-			<div class = "col-md-4">
-			</div>
-			<div class = "col-md-8">
-				<div class="streamgraph">
-				</div>
-			</div>	
-		</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box box-counter">
+                                    <div class="box-header with-border">
+                                        <h3 class="box_title">Number of Bot Tweets since June 2017</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="counter">
+                                        </div>
+                                    </div>
 
-		<div class = "row">
-			<div class = "col-md-4">
-			</div>
-			<div class = "col-md-4">
-				<div class = "row">
-				</div>
-				<div class="row">
-					<div id = "wordcloud">
-					</div>
-				</div>
-			</div>
-			<div class = "col-md-4">
-			</div>
-		</div>
-	
-		<!-- <div class = "row">
-			<div class="col-md-12" id = "footer">
-			</div>	
-		</div> -->
-	</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-tweets">
+                                    <div class="box-header with-border">
+                                        <h3 class="box_title">Most Recent Bot Tweets</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="tweet_list">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <footer class="footer-main">
+                2017 &copy Clara Halpin
+            </footer>
+        </div>
+    </div>
+    <script>
+        var client = null;
+
+        $(document).ready(function() {
+            client = new $.es.Client({
+                hosts: 'localhost:9212',
+                log: 'trace'
+            });
+
+            client.ping({
+                // ping usually has a 3000ms timeout
+                requestTimeout: 1000
+            }, function(error) {
+                if (error) {
+                    console.trace('elasticsearch cluster is down!');
+                } else {
+                    console.log("elasticsearch is running");
+                }
+            });
+
+
+
+            start_linegraph(query7d);
+            start_areagraph();
+            start_counter();
+            setInterval(function() {
+                start_counter();
+            }, 1000);
+            start_tweet_list();
+            setInterval(function() {
+                start_tweet_list();
+            }, 5000);
+
+        });
+
+    </script>
 </body>
+
 </html>
